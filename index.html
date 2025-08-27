@@ -4,8 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Remote Labs | Home</title>
+    <link rel="shortcut icon" href="./assets/images/fav_icon.png" type="image/x-icon">
     <link rel="stylesheet" href="./assets/css/style.css" />
     <link rel="stylesheet" href="./assets/css/responsive.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/mansurivilla/horizonslider/prod/css/HorizonSlider.min.css"
+    />
   </head>
   <body>
     <header class="">
@@ -232,13 +237,13 @@
           </div>
         </div>
         <div class="categories-bottom">
-          <div class="categories-bottom__inner image-reveal">
+          <div class="categories-bottom__inner" data-image-container>
             <div class="categories-bottom__row">
               <div class="categories-row__inner">
                 <div class="categories-row__left">
                   <span
                     ><img
-                    class="image_reveal-init"
+                      data-image-reveal
                       src="./assets/images/Frame 1410104998.svg"
                       alt="Award Winning"
                   /></span>
@@ -291,7 +296,7 @@
                 </div>
                 <div class="categories-row__right">
                   <img
-                  class="image_reveal-init"
+                    data-image-reveal
                     src="./assets/images/marketing-agency.webp"
                     alt="Marketing Agency"
                   />
@@ -316,7 +321,7 @@
                 </div>
                 <div class="categories-row__right">
                   <img
-                  class="image_reveal-init"
+                    data-image-reveal
                     src="./assets/images/coaching-business.webp"
                     alt="Coaching Business"
                   />
@@ -340,7 +345,7 @@
                 </div>
                 <div class="categories-row__right">
                   <img
-                  class="image_reveal-init"
+                    data-image-reveal
                     src="./assets/images/residential-contractors.webp"
                     alt="Residential Contractors"
                   />
@@ -351,10 +356,40 @@
         </div>
       </div>
     </section>
+    <div class="start-with_us-counter">
+      <div class="start-with-us-inner">
+        <div class="counter_blocks">
+          <div class="counter_block">
+            <h2>3k+</h2>
+            <p>Students Trained</p>
+          </div>
+          <div class="counter_block">
+            <h2>$4M+</h2>
+            <p>Revenue Generated</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <section class="section-spacing">
+      <div class="horizon-slider_container my-custom-slider">
+        <div class="horizon-slider_track">
+          <div class="horizon-slide">Your Slide Content 1</div>
+          <div class="horizon-slide">Your Slide Content 2</div>
+          <div class="horizon-slide">Your Slide Content 3</div>
+          <div class="horizon-slide">Your Slide Content 4</div>
+          <div class="horizon-slide">Your Slide Content 5</div>
+          <div class="horizon-slide">Your Slide Content 6</div>
+        </div>
+      </div>
+    </section>
     <script src="./assets/js/lenis.js" defer></script>
     <script src="./assets/js/gsap.js" defer></script>
     <script src="./assets/js/scrolltrigger.min.js" defer></script>
+    <script
+      src="https://cdn.jsdelivr.net/gh/mansurivilla/horizonslider/prod/js/HorizonSlider.min.js"
+      defer
+    ></script>
     <script src="./assets/js/animation.js" defer></script>
     <script src="./assets/js/custom.js" defer></script>
   </body>

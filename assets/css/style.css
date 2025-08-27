@@ -381,3 +381,13 @@ font-size: 24px;
   font-weight: bold;
   font-size: 18px;
 }
+
+
+
+.counter_blocks {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 253px;
+  text-align: center;
+}

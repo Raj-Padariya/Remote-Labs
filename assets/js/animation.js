@@ -68,10 +68,10 @@ function stickyScroll() {
 
 // Image Reveal Animation
 function imageRevealinti() {
-  const sections = document.querySelectorAll(".image-reveal");
+  const sections = document.querySelectorAll("[data-image-container]");
 
   sections.forEach((section) => {
-    const images = section.querySelectorAll(".image_reveal-init");
+    const images = section.querySelectorAll("[data-image-reveal]");
 
     if (images.length > 0) {
       images.forEach((image) => {
@@ -109,6 +109,7 @@ function imageRevealinti() {
     }
   });
 }
+
 function initSiteAnimations() {
   stickyScroll();
   imageRevealinti();
