@@ -122,6 +122,8 @@ input{border: none;}
   inset: 0;
 }
 
+.section-spacing{margin-bottom: 120px;}
+
 /* Header CSS */
 header {background: transparent;position: fixed;top: 0;z-index: 999;width: 100%;transition: 0.3s all linear;}
 .header--hidden { transform: translateY(-100%); }
@@ -452,4 +454,11 @@ font-size: 24px;
 }
 .start-with-us-col-btn .solid-btn-graident{
     width: 365px;
+}
+.counter_blocks {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 253px;
+  text-align: center;
 }
