@@ -462,3 +462,51 @@ font-size: 24px;
   gap: 253px;
   text-align: center;
 }
+
+
+/* Build Together */
+.build-together-row .build-together-col{
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.build-together-heading{
+    text-align: center;
+    margin-bottom: clamp(30px, 3vw, 50px);
+}
+.build-together-box{
+    background: #F5F5F5;
+    padding: 30px;
+    border-radius: 20px;
+    position: relative;
+    max-width: 460px;
+}
+.build-together-box-shap{
+    position: absolute;
+    display: inline-block;
+    right: 0;
+    top: 0;
+}
+.build-together-box-days{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-30%, -50%);
+}
+
+.build-together-box-days h5{
+    color: var(--white);
+    font-weight: 700;
+}
+
+.build-together-box-content{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(30px, 3vw, 50px);
+}
+.build-together-box-info h5{
+    font-weight: 900;
+    margin-bottom: 10px;
+}
