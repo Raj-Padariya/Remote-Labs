@@ -7,14 +7,14 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
 }
 
 // Lenis Setup
-  const lenis = new Lenis();
+const lenis = new Lenis();
 
-  lenis.on("scroll", ScrollTrigger.update);
+lenis.on("scroll", ScrollTrigger.update);
 
-  gsap.ticker.add((time) => {
-    lenis.raf(time * 1000);
-  });
-  gsap.ticker.lagSmoothing(0);
+gsap.ticker.add((time) => {
+  lenis.raf(time * 1000);
+});
+gsap.ticker.lagSmoothing(0);
 
 // Sticky Header Scroll
 function stickyScroll() {
