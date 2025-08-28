@@ -511,6 +511,59 @@ font-size: 24px;
 .build-together-box-info h5{
     font-weight: 900;
     margin-bottom: 10px;}
+
+
+
+
+
+
+
+
+
+
+
+/*---------------------
+  Scalable Section
+  -------------*/
+
+.scale-your-business-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.scalable-business__inner .start-with-us-row {
+  text-align: center;
+  justify-content: center;
+}
+
+.scalable-business__inner.start-with-us-inner {
+  display: flex;
+  flex-direction: column;
+  row-gap: 50px;
+}
+
+.scale-your-business-col h5 {
+  font-weight: 900;
+}
+
+
+.gradient__badge {
+  display: grid;
+  background: var(--gradient-primary);
+  border-radius: 50px;
+  width: 90px;
+  height: 90px;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-weight: 700;
+}
+
+
+
 /*-------------------------------
   Start Building Section Styles
 ---------------------------------*/
@@ -524,6 +577,9 @@ font-size: 24px;
   aspect-ratio: 2.6/1;
   
 }
+
+
+
 
 
 .start-building_content {
