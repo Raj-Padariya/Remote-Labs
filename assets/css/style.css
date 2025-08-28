@@ -464,6 +464,104 @@ font-size: 24px;
 }
 
 
+/* Build Together */
+.build-together-row .build-together-col{
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.build-together-heading{
+    text-align: center;
+    margin-bottom: clamp(30px, 3vw, 50px);
+}
+.build-together-box{
+    background: #F5F5F5;
+    padding: 30px;
+    border-radius: 20px;
+    position: relative;
+    max-width: 460px;
+}
+.build-together-box-shap{
+    position: absolute;
+    display: inline-block;
+    right: 0;
+    top: 0;
+}
+.build-together-box-days{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-30%, -50%);
+}
+
+.build-together-box-days h5{
+    color: var(--white);
+    font-weight: 700;
+}
+
+.build-together-box-content{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(30px, 3vw, 50px);
+}
+.build-together-box-info h5{
+    font-weight: 900;
+    margin-bottom: 10px;}
+
+
+
+
+
+
+
+
+
+
+
+/*---------------------
+  Scalable Section
+  -------------*/
+
+.scale-your-business-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.scalable-business__inner .start-with-us-row {
+  text-align: center;
+  justify-content: center;
+}
+
+.scalable-business__inner.start-with-us-inner {
+  display: flex;
+  flex-direction: column;
+  row-gap: 50px;
+}
+
+.scale-your-business-col h5 {
+  font-weight: 900;
+}
+
+
+.gradient__badge {
+  display: grid;
+  background: var(--gradient-primary);
+  border-radius: 50px;
+  width: 90px;
+  height: 90px;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-weight: 700;
+}
+
+
+
 /*-------------------------------
   Start Building Section Styles
 ---------------------------------*/
@@ -477,6 +575,9 @@ font-size: 24px;
   aspect-ratio: 2.6/1;
   
 }
+
+
+
 
 
 .start-building_content {
