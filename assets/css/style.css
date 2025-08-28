@@ -342,6 +342,20 @@ header nav {display: flex;align-items: center;justify-content: space-between;wid
   row-gap: 50px;
 }
 
+.categories-bottom {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.categories-bottom__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 
 .categories-top__description {
 max-width: 660px;
@@ -395,6 +409,8 @@ font-size: 24px;
 .categories-row__title {
   font-size: 42px;
 }
+
+
 
 
 /* Start WIth US CSS */
@@ -682,4 +698,46 @@ font-size: 24px;
 .scale-your-business-content h5{
   font-weight: 900;
   margin-bottom: 10px;
+}
+
+
+/* Just Five Click Section CSS */
+.just-five-client-heading {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.just-five-client-video video {
+    max-width: 60%;
+    margin: 0 auto;
+}
+.just-five-client-video {
+    margin-bottom: 50px;
+    text-align: center;
+}
+.just-five-client-text {
+    text-align: center;
+}
+.just-five-client-text p {
+    font-size: 18px;
+    max-width: 1100px;
+    margin: 0 auto 20px;
+}
+
+
+/* Footer CSS */
+.footer-row{
+  display: flex;
+  justify-content: space-between;
+}
+.footer-col{
+  flex: 1;
+}
+.footer-col-linsk{
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+}
+
+.footer-content{
+  max-width: 310px;
 }
