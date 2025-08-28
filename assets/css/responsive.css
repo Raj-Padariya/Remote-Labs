@@ -1,4 +1,33 @@
+@media (max-width:1600px) {
+    .container{max-width: 94%;}
+    header nav {width: 72%;}
+    .main-menu{column-gap: 40px;}
+}
+
+@media screen and (max-width: 1500px){
+    .build-together-box{flex: 47%;max-width: 47%;}
+    .scale-your-business-col{flex: 47%;max-width: 48%;}
+    .scale-your-business-row{flex-wrap: wrap;}
+}
+@media screen and (max-width: 1460px){
+     .main-menu{column-gap: 30px;}
+
+}
+
+@media (max-width:1360px){
+    .start-with-us-col-content{padding: 0;}
+}
+
+
+
+@media (max-width: 1299px) {
+    header nav {width: 80%;}
+    .rca_tipsCenter {position: relative;}
+    .footer-col-linsk{width: 62%;}
+}
+
 @media (max-width:1199px) {
+    .main-menu,
     .header-menu{flex-direction: column;align-items: flex-start;}
     header nav{flex-direction: column;align-items: flex-start;transition: 0.5s;justify-content: start;z-index: 2;}
     .header-rca-logo a img {width: 160px;}
@@ -10,7 +39,77 @@
     .open .toggle-icon::after {top: 0;transition: .3s linear;transform: rotate(0);background-color: var(--blue-color);width: 100%;}
     .open .toggle-icon {top: 10px;transition: .3s linear;transform: rotate(42deg);background-color: var(--blue-color);}
     .main-menu li a{ font-size: 20px;font-weight: 500;color: var(--black);}
+    .page-template-about-us .main-menu li a, .page-template-frontpage .main-menu li a {color: var(--black);}
+    .page-template-about-us .header-login .border-btn, .page-template-frontpage .header-login .border-btn {color: var(--black);border: 1px solid var(--black);}
+    .page-template-about-us .header-book-call .solid-btn-black, .page-template-frontpage .header-book-call .solid-btn-black{color: var(--white);background-color: var(--black);}
     .main-menu{ row-gap: 20px;padding: 50px 0 0 30px;}
     .header-btn{padding-top: 30px;padding-left: 30px;}
     header nav {width: 45%;}
+
+
+    .start-with-us-col-content{max-width: 90%;}
+    .start-with-us-row{flex-wrap: wrap;}
+}
+
+@media (max-width:1080px){
+    .start-with-us-col-content {max-width: 100%;}
+    .start-with-us-inner,
+    .start-with-us-col.image-reveal img,
+    .scale-your-business-inner,
+    .start-building_inner{border-radius: 30px;}
+}
+
+@media (max-width:991px){
+    header nav {width: 50%;}
+    .build-together-box-shap img{max-width: 200px;}
+    .herobanner-row{flex-wrap: wrap;gap: 30px;}
+    .footer-row{flex-direction: column;gap: 30px;}
+    .footer-col-linsk {width: 100%;gap: 20px;}
+    .home-about-content-card-row{flex-direction: column;gap: 50px;}
+    .home-about-content-card-box-arrow{transform: rotate(90deg);}
+}
+
+@media (max-width:860px){
+    .scale-your-business-col{flex: auto;max-width: 100%;}
+    .copy-right-div{flex-direction: column;gap: 20px;}
+}
+
+@media (max-width:767px) {
+    header nav {width: 60%;}
+    .rca_tipsCenter {inset: inherit;flex-direction: column;padding: 7px 0;gap: 6px;}
+    .rca_tipsLeft a {padding: 23px clamp(15px, 1.7vw, 25px);}
+    .start-with-us-inner,
+    .start-with-us-col.image-reveal img,
+    .scale-your-business-inner,
+    .start-building_inner{border-radius: 20px;}
+    .build-together-box {flex: auto;max-width: 100%;}
+    .copy-right-link ul{flex-wrap: wrap;justify-content: center;}
+    .start-with-us-col-label{padding: 12px 20px;}
+    .start-with-us-inner{padding: 40px 20px;}
+    .counter_blocks{gap: 50px;flex-wrap: wrap;}
+    
+}
+
+@media (max-width:600px){
+    header nav {width: 100%;}
+    .rca_tipsLeft a img {max-width: 50px;}
+    .reserve-seat-strip-bg {font-size: 10px;padding: 8px 10px;gap: 5px;}
+    .footer-col-linsk{flex-direction: column;}
+    .footer-col-links p{margin-bottom: 10px;}
+    .start-with-us-col-btn .solid-btn-graident {width: 100%;}
+    .start-with-us-col-label p {font-size: 11px;display: inline-flex;}
+    .start-with-us-col-label {padding: 9px 10px;}
+    .home-about-content-card-box-card-bg img{border-radius: 10px;}
+    .home-about-content-card-box-bg{padding: 15px 20px;}
+
+
+}
+
+@media (max-width: 560px) {
+    .header-rca-logo a img {width: 110px;}
+}
+
+@media (max-width: 440px) {
+    .rca_label--text {display: none;}
+    .rca_tipsLeft a {padding: 13px clamp(10px, 1.7vw, 25px);}
 }
