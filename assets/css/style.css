@@ -663,3 +663,45 @@ font-size: 24px;
   font-weight: 900;
   margin-bottom: 10px;
 }
+
+
+/* Just Five Click Section CSS */
+.just-five-client-heading {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.just-five-client-video video {
+    max-width: 60%;
+    margin: 0 auto;
+}
+.just-five-client-video {
+    margin-bottom: 50px;
+    text-align: center;
+}
+.just-five-client-text {
+    text-align: center;
+}
+.just-five-client-text p {
+    font-size: 18px;
+    max-width: 1100px;
+    margin: 0 auto 20px;
+}
+
+
+/* Footer CSS */
+.footer-row{
+  display: flex;
+  justify-content: space-between;
+}
+.footer-col{
+  flex: 1;
+}
+.footer-col-linsk{
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+}
+
+.footer-content{
+  max-width: 310px;
+}
