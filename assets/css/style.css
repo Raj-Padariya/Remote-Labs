@@ -709,6 +709,11 @@ font-size: 24px;
 
 
 /* Footer CSS */
+footer{
+  background: linear-gradient(180deg, rgba(94, 41, 253, 0.1) 0%, rgba(197, 156, 240, 0) 100%);
+  border-top: 1px solid #9C9C9C;
+  padding: 50px 0 35px;
+}
 .footer-row{
   display: flex;
   justify-content: space-between;
@@ -722,6 +727,37 @@ font-size: 24px;
   width: 70%;
 }
 
-.footer-content{
+.footer-content p{
   max-width: 310px;
+}
+.footer-content img{
+  margin-bottom: 20px;
+}
+
+.footer-col-links p{
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.copy-right-div{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #9C9C9C;
+  padding-top: 20px;
+  margin-top: 50px;
+}
+
+.copy-right-link ul{
+  display: flex;
+  gap: 12px;
+}
+
+.copy-right-link ul li{
+  border-right: 2px solid #00000070;
+  padding-right: 12px;
+}
+.copy-right-link ul li a{
+  font-weight: 700;
+  opacity: .75;
 }
