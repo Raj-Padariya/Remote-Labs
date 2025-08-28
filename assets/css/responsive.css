@@ -4,10 +4,28 @@
     .main-menu{column-gap: 40px;}
 }
 
+@media (max-width: 1700px) {
+    .slide-earning {
+        position: relative;
+        margin-top: 30px;
+    }
+    .earning h4{
+        font-size: 26px;
+    }
+}
+
 @media screen and (max-width: 1500px){
     .build-together-box{flex: 47%;max-width: 47%;}
     .scale-your-business-col{flex: 47%;max-width: 48%;}
     .scale-your-business-row{flex-wrap: wrap;}
+
+    .testimonial-slide-content {
+        max-width: 333px;
+    }
+    /* .slide-earning {
+        position: absolute;
+        margin-top: 30px;
+    } */
 }
 @media screen and (max-width: 1460px){
      .main-menu{column-gap: 30px;}
@@ -16,6 +34,25 @@
 
 @media (max-width:1360px){
     .start-with-us-col-content{padding: 0;}
+    .testimonial-slide
+ {
+        flex-direction: column;
+    }
+    .testimonial-slide-img img {
+        height: 270px;
+        object-fit: cover;
+        margin-bottom: 30px;
+    }
+        .play-btn img {
+        height: 100%;
+        object-fit: contain;
+    }
+    .testimonial-slide-content {
+        max-width: 100%;
+    }
+    .testimonial-slide-content p {
+        font-size: 17px;
+    }
 }
 
 
@@ -49,6 +86,11 @@
 
     .start-with-us-col-content{max-width: 90%;}
     .start-with-us-row{flex-wrap: wrap;}
+
+
+        #hero-banner-video.pop-upbox .popup-box, #review-slide-1.pop-upbox .popup-box, #review-slide-2.pop-upbox .popup-box, #review-slide-3.pop-upbox .popup-box, #review-slide-4.pop-upbox .popup-box, #review-slide-5.pop-upbox .popup-box, #review-slide-6.pop-upbox .popup-box, #review-slide-7.pop-upbox .popup-box, #review-slide-8.pop-upbox .popup-box, #review-slide-9.pop-upbox .popup-box {
+        max-width: 94%;
+    }
 }
 
 @media (max-width:1080px){
