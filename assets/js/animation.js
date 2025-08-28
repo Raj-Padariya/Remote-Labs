@@ -598,7 +598,7 @@ function stickyAnimation() {
     ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
     // Check if screen width is greater than 991px
-    const isDesktop = window.matchMedia("(min-width: 991px)").matches;
+    const isDesktop = window.matchMedia("(min-width: 992px)").matches;
 
     containers.forEach((container, index) => {
       const texts = gsap.utils.toArray(".feature", container);
