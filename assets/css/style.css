@@ -392,6 +392,10 @@ font-size: 24px;
 }
 
 
+.categories-row__title {
+  font-size: 42px;
+}
+
 
 /* Start WIth US CSS */
 .start-with-us-inner{
@@ -405,6 +409,8 @@ font-size: 24px;
     align-items: center;
     justify-content: space-between;
     gap: 50px;
+    max-width: 1765px;
+    margin: 0 auto;
 }
 .start-with-us-col-label{
     background: var(--white);
@@ -508,7 +514,8 @@ font-size: 24px;
 }
 .build-together-box-info h5{
     font-weight: 900;
-    margin-bottom: 10px;}
+    margin-bottom: 10px;
+  }
 
 
 
@@ -546,6 +553,9 @@ font-size: 24px;
 .scale-your-business-col h5 {
   font-weight: 900;
 }
+.scale-your-business-col p {
+  text-align: center;
+}
 
 
 .gradient__badge {
@@ -576,7 +586,19 @@ font-size: 24px;
   
 }
 
+.scalable-business__inner .start-with-us-col-content {
+  max-width: 980px;
+  width: 100%;
+}
 
+
+.scalable-col__bottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 10px;
+}
 
 
 
@@ -612,4 +634,52 @@ font-size: 24px;
   padding: 15px 36px;
   border-radius: 50px;
   font-weight: bold;
+}
+
+/* Scale Your Bisiness */
+
+.scale-your-business-inner{
+    background-color: var(--light-grey);
+    border-radius: 50px;
+    margin: 0 30px;
+    padding: 80px 0;
+}
+.scale-your-business-heading{
+  text-align: center;
+  margin-bottom: 25px;
+}
+.scale-your-business-heading h2{
+  max-width: 1027px;
+  margin: 0 auto 20px;
+}
+
+.scale-your-business-heading p{
+  max-width: 684px;
+  margin: 0 auto;
+}
+
+.scale-your-business-col{
+  background: linear-gradient(180deg, #F5F5F5 30.32%, #FFFFFF 82.69%);
+  border: 5px solid #FFFFFF;
+  border-radius: 20px;
+  padding: 40px 35px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  box-shadow: 0px 14px 30px 0px #0000000D;
+}
+
+.scale-your-business-content{
+  text-align: center;
+}
+
+.scale-your-business-row{
+    display: flex;
+    gap: 30px;
+}
+
+.scale-your-business-content h5{
+  font-weight: 900;
+  margin-bottom: 10px;
 }
