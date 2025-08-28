@@ -342,6 +342,20 @@ header nav {display: flex;align-items: center;justify-content: space-between;wid
   row-gap: 50px;
 }
 
+.categories-bottom {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.categories-bottom__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 
 .categories-top__description {
 max-width: 660px;
@@ -395,6 +409,8 @@ font-size: 24px;
 .categories-row__title {
   font-size: 42px;
 }
+
+
 
 
 /* Start WIth US CSS */
