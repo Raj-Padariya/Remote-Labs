@@ -1,4 +1,4 @@
-  @media only screen and (max-width: 992px) {
+  @media only screen and (max-width: 991px) {
    .width-md-100,
     .width-lg-50 { width: var(--width-md-100); }
   .row_custom { flex-wrap: wrap; }
