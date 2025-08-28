@@ -133,23 +133,21 @@ function initToggleMenu() {
   });
 }
 
-
 function stickyAnimation() {
   const animationConfigs = {
     BG_right: {
-       screen: { axis: "y", distance: "-75" },
-      featureBg: { axis: "x", distance: 75 },
+      screen: { axis: "y", distance: "-75" },
       feature: { axis: "y", distance: 75 },
       stagger: {
-        amount: 0.4, 
-        from: "start", 
+        amount: 0.4, // Total stagger time
+        from: "start", // Direction: "start", "center", "end", "edges"
         axis: "y",
         distance: 40,
       },
-      duration: 10,
+      duration: 2.5,
       pause: 0.5,
-      easeIn: "linear",
-      easeOut: "linear",
+      easeIn: "power2.out",
+      easeOut: "power2.in",
     },
   };
 
@@ -175,36 +173,40 @@ function stickyAnimation() {
     const config = animationConfigs[configKey] || animationConfigs.default;
 
     const texts = gsap.utils.toArray(".feature", container);
-    // Changed from .screen to .feature-bg to match your HTML structure
     const screens = gsap.utils.toArray(".feature-bg", container);
-    const bgs = gsap.utils.toArray(".feature-bg", container);
     
-    // Get stagger elements for each feature - target all direct children of categories-row__left
+    // Get categories-row__left elements for stagger animations
     const staggerElements = texts.map(feature => {
       const categoryRow = feature.querySelector('.categories-row__left');
       if (categoryRow) {
-        return gsap.utils.toArray(categoryRow.children);
+        return {
+          parent: categoryRow,
+          children: gsap.utils.toArray(categoryRow.children)
+        };
       }
-      return [];
+      return { parent: null, children: [] };
     });
 
-    // Check if we have matching counts
+    // Check for matching counts
     if (texts.length !== screens.length) {
       console.error(`Mismatch in element counts for container ${index + 1}`);
       console.log(`Found ${texts.length} .feature elements and ${screens.length} .feature-bg elements`);
       return;
     }
 
-    // Set initial states
-    gsap.set([texts[0]], { opacity: 1, x: 0, y: 0 });
+    // Set initial states for .feature elements
+    gsap.set([texts[0]], { opacity: 1, x: 0, y: 0, className: 'feature active' });
     gsap.set([screens[0]], { opacity: 1, x: 0, y: 0 });
     
-    // Set initial states for stagger elements
-    gsap.set(staggerElements[0], { opacity: 1, x: 0, y: 0 });
+    // Set initial state for first categories-row__left children
+    if (staggerElements[0].parent) {
+      gsap.set(staggerElements[0].children, { opacity: 1, x: 0, y: 0 });
+    }
     
     gsap.set([...texts.slice(1)], {
       opacity: 0,
       [config.feature.axis]: config.feature.distance,
+      className: 'feature non-active'
     });
     gsap.set([...screens.slice(1)], {
       opacity: 0,
@@ -214,46 +216,34 @@ function stickyAnimation() {
           : -config.screen.distance,
     });
     
-    // Set initial states for remaining stagger elements
-    staggerElements.slice(1).forEach(elements => {
-      if (elements && elements.length > 0) {
-        gsap.set(elements, {
+    // Set initial states for remaining categories-row__left children
+    staggerElements.slice(1).forEach(({ parent, children }) => {
+      if (parent && children.length > 0) {
+        gsap.set(children, {
           opacity: 0,
           [config.stagger.axis]: config.stagger.distance,
         });
       }
     });
 
-    const dropdown = container.querySelector("#sectionDropdown");
-    let currentActiveFeature = null;
-
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: wrapper,
         start: "top top",
-        end: "+=" + window.innerHeight * 5,
-        scrub: true,
+        end: "+=" + window.innerHeight * texts.length,
+        scrub: 1,
         pin: wrapper,
+        snap: {
+          snapTo: 1 / (texts.length - 1),
+          duration: { min: 0.2, max: 0.6 },
+          delay: 0.1,
+          ease: "power2.inOut"
+        },
         markers: false,
         onUpdate: self => {
-          const currentTime = tl.time();
-          let activeFeature = null;
-
-          // Determine the active feature based on timeline time
-          for (let j = 1; j <= texts.length; j++) {
-            const start = tl.labels[`feature${j}_start`];
-            const nextStart = j < texts.length ? tl.labels[`feature${j + 1}_start`] : tl.duration();
-            if (currentTime >= start && currentTime < nextStart) {
-              activeFeature = j;
-              break;
-            }
-          }
-
-          // Update dropdown if the active feature changes and dropdown exists
-          if (activeFeature !== currentActiveFeature && dropdown) {
-            dropdown.value = `section${activeFeature}`;
-            currentActiveFeature = activeFeature;
-          }
+          const progress = self.progress;
+          let activeFeature = Math.round(progress * (texts.length - 1)) + 1;
+          activeFeature = Math.max(1, Math.min(texts.length, activeFeature));
         },
       },
     });
@@ -270,11 +260,12 @@ function stickyAnimation() {
         ease: config.easeOut,
       };
 
-      const textAnim = { ...animProps, [config.feature.axis]: 0 };
+      const textAnim = { ...animProps, [config.feature.axis]: 0, className: 'feature active' };
       const screenAnim = { ...animProps, [config.screen.axis]: 0 };
       const textExit = {
         ...exitProps,
         [config.feature.axis]: -config.feature.distance,
+        className: 'feature non-active'
       };
       const screenExit = {
         ...exitProps,
@@ -284,7 +275,6 @@ function stickyAnimation() {
             : config.screen.distance,
       };
       
-      // Stagger animations for child elements
       const staggerAnimIn = {
         opacity: 1,
         [config.stagger.axis]: 0,
@@ -307,16 +297,15 @@ function stickyAnimation() {
         }
       };
 
-      // Add label at the start of the feature's entrance animation
       tl.add(`feature${i + 1}_start`);
 
       if (i < texts.length - 1) {
         tl.to(txt, textAnim)
           .to(screens[i], screenAnim, "<");
           
-        // Add stagger animation if elements exist and config is available
-        if (staggerElements[i].length > 0 && config.stagger) {
-          tl.to(staggerElements[i], staggerAnimIn, "<0.1");
+        // Add stagger animation for categories-row__left children
+        if (staggerElements[i].parent && staggerElements[i].children.length > 0) {
+          tl.to(staggerElements[i].children, staggerAnimIn, "<0.1");
         }
         
         tl.to({}, { duration: config.pause })
@@ -324,16 +313,16 @@ function stickyAnimation() {
           .to(screens[i], screenExit, "<");
           
         // Add stagger exit animation
-        if (staggerElements[i].length > 0 && config.stagger) {
-          tl.to(staggerElements[i], staggerAnimOut, "<0.1");
+        if (staggerElements[i].parent && staggerElements[i].children.length > 0) {
+          tl.to(staggerElements[i].children, staggerAnimOut, "<0.1");
         }
       } else {
         tl.to(txt, textAnim)
           .to(screens[i], screenAnim, "<");
           
         // Add stagger animation for last element
-        if (staggerElements[i].length > 0 && config.stagger) {
-          tl.to(staggerElements[i], staggerAnimIn, "<0.1");
+        if (staggerElements[i].parent && staggerElements[i].children.length > 0) {
+          tl.to(staggerElements[i].children, staggerAnimIn, "<0.1");
         }
         
         tl.to({}, { duration: config.pause });
@@ -347,13 +336,234 @@ function stickyAnimation() {
 }
 
 
+// function stickyAnimation() {
+//   const animationConfigs = {
+//     BG_right: {
+//       screen: { axis: "y", distance: "-75" },
+//       feature: { axis: "y", distance: 75 },
+//       stagger: {
+//         amount: 0.4, // Total stagger time
+//         from: "start", // Direction: "start", "center", "end", "edges"
+//         axis: "y",
+//         distance: 40,
+//       },
+//       duration: 2.5,
+//       pause: 0.5,
+//       easeIn: "power2.out",
+//       easeOut: "power2.in",
+//     },
+//   };
 
-// stickyAnimation();
+//   const containers = document.querySelectorAll(".stacking_section-container");
 
+//   const setupAnimations = () => {
+//     // Check if screen width is greater than 768px
+//     const isDesktop = window.matchMedia("(min-width: 991px)").matches;
 
+//     containers.forEach((container, index) => {
+//       // Reset styles for all screens to avoid lingering GSAP effects
+//       const texts = gsap.utils.toArray(".feature", container);
+//       const screens = gsap.utils.toArray(".feature-bg", container);
+//       const staggerElements = texts.map(feature => {
+//         const categoryRow = feature.querySelector('.categories-row__left');
+//         if (categoryRow) {
+//           return {
+//             parent: categoryRow,
+//             children: gsap.utils.toArray(categoryRow.children)
+//           };
+//         }
+//         return { parent: null, children: [] };
+//       });
 
+//       if (!isDesktop) {
+//         // Reset styles for mobile (≤768px)
+//         gsap.set(texts, { opacity: 1, x: 0, y: 0, clearProps: "all" });
+//         gsap.set(screens, { opacity: 1, x: 0, y: 0, clearProps: "all" });
+//         staggerElements.forEach(({ parent, children }) => {
+//           if (parent && children.length > 0) {
+//             gsap.set(children, { opacity: 1, x: 0, y: 0, clearProps: "all" });
+//           }
+//         });
+//         // Remove any existing pin wrappers to prevent layout issues
+//         const wrapper = container.parentNode;
+//         if (wrapper.classList.contains("pin-wrapper")) {
+//           wrapper.parentNode.insertBefore(container, wrapper);
+//           wrapper.remove();
+//         }
+//         return; // Skip animation setup for mobile
+//       }
 
+//       // Animation setup for desktop (>768px)
+//       const wrapper = document.createElement("div");
+//       wrapper.classList.add("pin-wrapper");
+//       container.parentNode.insertBefore(wrapper, container);
+//       wrapper.appendChild(container);
 
+//       let configKey = "default";
+//       if (container.classList.contains("UI_right")) {
+//         configKey = "UI_right";
+//       } else if (container.classList.contains("BG_right")) {
+//         configKey = "BG_right";
+//       }
+
+//       const config = animationConfigs[configKey] || animationConfigs.default;
+
+//       // Check for matching counts
+//       if (texts.length !== screens.length) {
+//         console.error(`Mismatch in element counts for container ${index + 1}`);
+//         console.log(`Found ${texts.length} .feature elements and ${screens.length} .feature-bg elements`);
+//         return;
+//       }
+
+//       // Set initial states for .feature elements
+//       gsap.set([texts[0]], { opacity: 1, x: 0, y: 0, className: 'feature active' });
+//       gsap.set([screens[0]], { opacity: 1, x: 0, y: 0 });
+      
+//       // Set initial state for first categories-row__left children
+//       if (staggerElements[0].parent) {
+//         gsap.set(staggerElements[0].children, { opacity: 1, x: 0, y: 0 });
+//       }
+      
+//       gsap.set([...texts.slice(1)], {
+//         opacity: 0,
+//         [config.feature.axis]: config.feature.distance,
+//         className: 'feature non-active'
+//       });
+//       gsap.set([...screens.slice(1)], {
+//         opacity: 0,
+//         [config.screen.axis]:
+//           config.screen.axis === "x"
+//             ? config.screen.distance
+//             : -config.screen.distance,
+//       });
+      
+//       // Set initial states for remaining categories-row__left children
+//       staggerElements.slice(1).forEach(({ parent, children }) => {
+//         if (parent && children.length > 0) {
+//           gsap.set(children, {
+//             opacity: 0,
+//             [config.stagger.axis]: config.stagger.distance,
+//           });
+//         }
+//       });
+
+//       const tl = gsap.timeline({
+//         scrollTrigger: {
+//           trigger: wrapper,
+//           start: "top top",
+//           end: "+=" + window.innerHeight * texts.length,
+//           scrub: 1,
+//           pin: wrapper,
+//           snap: {
+//             snapTo: 1 / (texts.length - 1),
+//             duration: { min: 0.2, max: 0.6 },
+//             delay: 0.1,
+//             ease: "power2.inOut"
+//           },
+//           markers: false,
+//           onUpdate: self => {
+//             const progress = self.progress;
+//             let activeFeature = Math.round(progress * (texts.length - 1)) + 1;
+//             activeFeature = Math.max(1, Math.min(texts.length, activeFeature));
+//           },
+//         },
+//       });
+
+//       texts.forEach((txt, i) => {
+//         const animProps = {
+//           opacity: 1,
+//           duration: config.duration,
+//           ease: config.easeIn,
+//         };
+//         const exitProps = {
+//           opacity: 0,
+//           duration: config.duration,
+//           ease: config.easeOut,
+//         };
+
+//         const textAnim = { ...animProps, [config.feature.axis]: 0, className: 'feature active' };
+//         const screenAnim = { ...animProps, [config.screen.axis]: 0 };
+//         const textExit = {
+//           ...exitProps,
+//           [config.feature.axis]: -config.feature.distance,
+//           className: 'feature non-active'
+//         };
+//         const screenExit = {
+//           ...exitProps,
+//           [config.screen.axis]:
+//             config.screen.axis === "x"
+//               ? -config.screen.distance
+//               : config.screen.distance,
+//         };
+        
+//         const staggerAnimIn = {
+//           opacity: 1,
+//           [config.stagger.axis]: 0,
+//           duration: config.duration * 0.6,
+//           ease: config.easeIn,
+//           stagger: {
+//             amount: config.stagger.amount,
+//             from: config.stagger.from,
+//           }
+//         };
+        
+//         const staggerAnimOut = {
+//           opacity: 0,
+//           [config.stagger.axis]: -config.stagger.distance,
+//           duration: config.duration * 0.6,
+//           ease: config.easeOut,
+//           stagger: {
+//             amount: config.stagger.amount,
+//             from: config.stagger.from,
+//           }
+//         };
+
+//         tl.add(`feature${i + 1}_start`);
+
+//         if (i < texts.length - 1) {
+//           tl.to(txt, textAnim)
+//             .to(screens[i], screenAnim, "<");
+            
+//           // Add stagger animation for categories-row__left children
+//           if (staggerElements[i].parent && staggerElements[i].children.length > 0) {
+//             tl.to(staggerElements[i].children, staggerAnimIn, "<0.1");
+//           }
+          
+//           tl.to({}, { duration: config.pause })
+//             .to(txt, textExit)
+//             .to(screens[i], screenExit, "<");
+            
+//           // Add stagger exit animation
+//           if (staggerElements[i].parent && staggerElements[i].children.length > 0) {
+//             tl.to(staggerElements[i].children, staggerAnimOut, "<0.1");
+//           }
+//         } else {
+//           tl.to(txt, textAnim)
+//             .to(screens[i], screenAnim, "<");
+            
+//           // Add stagger animation for last element
+//           if (staggerElements[i].parent && staggerElements[i].children.length > 0) {
+//             tl.to(staggerElements[i].children, staggerAnimIn, "<0.1");
+//           }
+          
+//           tl.to({}, { duration: config.pause });
+//         }
+//       });
+//     });
+//   };
+
+//   // Initial setup
+//   setupAnimations();
+
+//   // Refresh ScrollTrigger and re-run setup on resize
+//   const refreshScrollTrigger = () => {
+//     ScrollTrigger.refresh();
+//     setupAnimations();
+//   };
+
+//   gsap.delayedCall(0.1, refreshScrollTrigger);
+//   window.addEventListener("resize", refreshScrollTrigger);
+// }
 
 
 
