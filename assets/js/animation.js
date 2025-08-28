@@ -133,151 +133,6 @@ function initToggleMenu() {
   });
 }
 
-// function stickyAnimation() {
-//   const animationConfigs = {
-//     BG_right: {
-//       screen: { axis: "y", distance: "-75" },
-//       featureBg: { axis: "x", distance: 75 },
-//       feature: { axis: "y", distance: 75 },
-//       duration: 2.5,
-//       pause: 0.5,
-//       easeIn: "none",
-//       easeOut: "none",
-//     },
-//   };
-
-//   const containers = document.querySelectorAll(".stacking_section-container");
-
-//   const refreshScrollTrigger = () => {
-//     ScrollTrigger.refresh();
-//   };
-
-//   containers.forEach((container, index) => {
-//     const wrapper = document.createElement("div");
-//     wrapper.classList.add("pin-wrapper");
-//     container.parentNode.insertBefore(wrapper, container);
-//     wrapper.appendChild(container);
-
-//     let configKey = "BG_right"; // Set default to BG_right since that's what your container uses
-//     if (container.classList.contains("UI_right")) {
-//       configKey = "UI_right";
-//     } else if (container.classList.contains("BG_right")) {
-//       configKey = "BG_right";
-//     }
-
-//     const config = animationConfigs[configKey];
-
-//     const texts = gsap.utils.toArray(".feature", container);
-//     // Changed from .screen to .feature-bg to match your HTML structure
-//     const screens = gsap.utils.toArray(".feature-bg", container);
-//     const bgs = gsap.utils.toArray(".feature-bg", container);
-
-//     // Check if we have matching counts
-//     if (texts.length !== screens.length) {
-//       console.error(`Mismatch in element counts for container ${index + 1}`);
-//       console.log(`Found ${texts.length} .feature elements and ${screens.length} .feature-bg elements`);
-//       return;
-//     }
-
-//     // Set initial states
-//     gsap.set([texts[0]], { opacity: 1, x: 0, y: 0 });
-//     gsap.set([screens[0]], { opacity: 1, x: 0, y: 0 });
-    
-//     gsap.set([...texts.slice(1)], {
-//       opacity: 0,
-//       [config.feature.axis]: config.feature.distance,
-//     });
-//     gsap.set([...screens.slice(1)], {
-//       opacity: 0,
-//       [config.screen.axis]:
-//         config.screen.axis === "x"
-//           ? config.screen.distance
-//           : -config.screen.distance,
-//     });
-
-//     const dropdown = container.querySelector("#sectionDropdown");
-//     let currentActiveFeature = null;
-
-//     const tl = gsap.timeline({
-//       scrollTrigger: {
-//         trigger: wrapper,
-//         start: "top top",
-//         end: "+=" + window.innerHeight * 5,
-//         scrub: true,
-//         pin: wrapper,
-//         markers: false,
-//         onUpdate: self => {
-//           const currentTime = tl.time();
-//           let activeFeature = null;
-
-//           // Determine the active feature based on timeline time
-//           for (let j = 1; j <= texts.length; j++) {
-//             const start = tl.labels[`feature${j}_start`];
-//             const nextStart = j < texts.length ? tl.labels[`feature${j + 1}_start`] : tl.duration();
-//             if (currentTime >= start && currentTime < nextStart) {
-//               activeFeature = j;
-//               break;
-//             }
-//           }
-
-//           // Update dropdown if the active feature changes and dropdown exists
-//           if (activeFeature !== currentActiveFeature && dropdown) {
-//             dropdown.value = `section${activeFeature}`;
-//             currentActiveFeature = activeFeature;
-//           }
-//         },
-//       },
-//     });
-
-//     texts.forEach((txt, i) => {
-//       const animProps = {
-//         opacity: 1,
-//         duration: config.duration,
-//         ease: config.easeIn,
-//       };
-//       const exitProps = {
-//         opacity: 0,
-//         duration: config.duration,
-//         ease: config.easeOut,
-//       };
-
-//       const textAnim = { ...animProps, [config.feature.axis]: 0 };
-//       const screenAnim = { ...animProps, [config.screen.axis]: 0 };
-//       const textExit = {
-//         ...exitProps,
-//         [config.feature.axis]: -config.feature.distance,
-//       };
-//       const screenExit = {
-//         ...exitProps,
-//         [config.screen.axis]:
-//           config.screen.axis === "x"
-//             ? -config.screen.distance
-//             : config.screen.distance,
-//       };
-
-//       // Add label at the start of the feature's entrance animation
-//       tl.add(`feature${i + 1}_start`);
-
-//       if (i < texts.length - 1) {
-//         tl.to(txt, textAnim)
-//           .to(screens[i], screenAnim, "<")
-//           .to({}, { duration: config.pause })
-//           .to(txt, textExit)
-//           .to(screens[i], screenExit, "<");
-//       } else {
-//         tl.to(txt, textAnim)
-//           .to(screens[i], screenAnim, "<")
-//           .to({}, { duration: config.pause });
-//       }
-//     });
-//   });
-
-//   gsap.delayedCall(0.1, refreshScrollTrigger);
-
-//   window.addEventListener("resize", refreshScrollTrigger);
-// }
-
-
 
 function stickyAnimation() {
   const animationConfigs = {
@@ -286,15 +141,15 @@ function stickyAnimation() {
       featureBg: { axis: "x", distance: 75 },
       feature: { axis: "y", distance: 75 },
       stagger: {
-        amount: 0.4, // Total stagger time
-        from: "start", // Direction: "start", "center", "end", "edges"
+        amount: 0.4, 
+        from: "start", 
         axis: "y",
         distance: 40,
       },
-      duration: 2.5,
+      duration: 10,
       pause: 0.5,
-      easeIn: "power2.out",
-      easeOut: "power2.in",
+      easeIn: "linear",
+      easeOut: "linear",
     },
   };
 
