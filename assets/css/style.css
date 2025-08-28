@@ -392,6 +392,10 @@ font-size: 24px;
 }
 
 
+.categories-row__title {
+  font-size: 42px;
+}
+
 
 /* Start WIth US CSS */
 .start-with-us-inner{
@@ -510,7 +514,8 @@ font-size: 24px;
 }
 .build-together-box-info h5{
     font-weight: 900;
-    margin-bottom: 10px;}
+    margin-bottom: 10px;
+  }
 
 
 
@@ -548,6 +553,9 @@ font-size: 24px;
 .scale-your-business-col h5 {
   font-weight: 900;
 }
+.scale-your-business-col p {
+  text-align: center;
+}
 
 
 .gradient__badge {
@@ -578,7 +586,19 @@ font-size: 24px;
   
 }
 
+.scalable-business__inner .start-with-us-col-content {
+  max-width: 980px;
+  width: 100%;
+}
 
+
+.scalable-col__bottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 10px;
+}
 
 
 
