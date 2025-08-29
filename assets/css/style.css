@@ -52,7 +52,9 @@
     --width-lg-50: 60%; --width-lg-30: 30%; --width-md-100: 100%;
 }
 
-
+.line {
+  overflow: hidden;
+}
 
 
 /* Reset CSS */
