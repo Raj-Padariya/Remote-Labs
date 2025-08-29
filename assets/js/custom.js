@@ -1,87 +1,74 @@
 
 document.addEventListener("DOMContentLoaded", function () {
+  
+  gsap.registerPlugin(SplitText, ScrollTrigger);
 
+function textAnimation() {
+  const SplittingTextConfig = {
+    selector: "h1, h2, p",
+    type: "lines", // 👈 only split into lines
+    linesClass: "line",
+    duration: 0.8,
+    yPercent: 100,
+    opacity: 0,
+    stagger: 0.15,
+    ease: "cubic-bezier(0.77, 0, 0.175, 1)",
+    start: "top 95%",
+  };
 
+  // Hide all initially
+  document.querySelectorAll(SplittingTextConfig.selector).forEach((el) => {
+    el.style.visibility = "hidden";
+  });
 
-gsap.registerPlugin(SplitText, ScrollTrigger);
-//  Splitting text animation
-  function textAnimation() {
-    const SplittingTextConfig = {
-      selector: "h1, h2, p",
-      type: "words,lines",
-      linesClass: "line",
-      duration: 0.5,
-      yPercent: 100,
-      opacity: 0,
-      stagger: 0.1,
-      ease: "cubic-bezier(0.77, 0, 0.175, 1)",
-      start: "top 95%",
-    };
- 
-    // Set initial visibility to hidden for all targeted elements
-    document
-      .querySelectorAll(SplittingTextConfig.selector)
-      .forEach((element) => {
-        element.style.visibility = "hidden";
+  document.fonts.ready.then(() => {
+    if (!document.body.classList.contains("animation_init")) {
+      console.log("Animation not initialized: missing .animation_init class");
+      return;
+    }
+
+    const elements = document.querySelectorAll(SplittingTextConfig.selector);
+    if (!elements.length) return;
+
+    elements.forEach((element) => {
+      element.style.visibility = "visible";
+
+      // Split text into lines only
+      const split = new SplitText(element, {
+        type: SplittingTextConfig.type,
+        linesClass: SplittingTextConfig.linesClass,
       });
- 
-    document.fonts.ready.then(() => {
-      if (document.body.classList.contains("animation_init")) {
-        const elements = document.querySelectorAll(
-          SplittingTextConfig.selector
-        );
- 
-        if (elements.length === 0) {
-          console.warn("No elements found for SplitText animation");
-          return;
+
+      const animation = gsap.timeline({ paused: true });
+
+      // Animate whole lines instead of words
+      animation.from(
+        split.lines,
+        {
+          duration: SplittingTextConfig.duration,
+          yPercent: SplittingTextConfig.yPercent,
+          opacity: SplittingTextConfig.opacity,
+          ease: SplittingTextConfig.ease,
+          stagger: SplittingTextConfig.stagger,
         }
- 
-        elements.forEach((element) => {
-          element.style.visibility = "visible";
-          element.style.opacity = "1";
- 
-          const split = new SplitText(element, {
-            type: SplittingTextConfig.type,
-            linesClass: SplittingTextConfig.linesClass,
-          });
- 
-          const animation = gsap.timeline({ paused: true });
-          split.lines.forEach((line, index) => {
-            const wordsInLine = line.querySelectorAll("div");
-            animation.from(
-              wordsInLine,
-              {
-                duration: SplittingTextConfig.duration,
-                yPercent: SplittingTextConfig.yPercent,
-                opacity: SplittingTextConfig.opacity,
-                ease: SplittingTextConfig.ease,
-              },
-              index * SplittingTextConfig.stagger
-            );
-          });
- 
-          ScrollTrigger.create({
-            trigger: element,
-            scroller: document.body,
-            start: SplittingTextConfig.start,
-            animation: animation,
-            toggleActions: "play none none reverse",
-            // markers: true,
-          });
-        });
-      } else {
-        console.log(
-          'Animation not initialized: body does not have "animation_init" class'
-        );
-      }
+      );
+
+      // ScrollTrigger setup
+      ScrollTrigger.create({
+        trigger: element,
+        start: SplittingTextConfig.start,
+        animation: animation,
+        toggleActions: "play none none reverse",
+        // markers: true,
+      });
     });
-  }
- 
-  document.body.classList.add("animation_init");
-  textAnimation();
+  });
+}
 
+// Init
+document.body.classList.add("animation_init");
+textAnimation();
 });
-
 
 // 
 $('.Testimonial-Slider').owlCarousel({

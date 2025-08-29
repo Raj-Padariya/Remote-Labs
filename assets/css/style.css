@@ -220,6 +220,9 @@ header nav {display: flex;align-items: center;justify-content: space-between;wid
     padding: 14px 20px;
 }
 
+.herobanner-col-img{
+  flex: 1;
+}
 
 .herobanner-col-content h1 .graident-title{
     text-transform: capitalize;

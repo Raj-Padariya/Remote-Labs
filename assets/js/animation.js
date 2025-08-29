@@ -5,7 +5,7 @@ if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
     "GSAP or ScrollTrigger is not defined. Some animations may not work."
   );
 }
-gsap.registerPlugin(SplitText);
+
 
 // Lenis Setup
 const lenis = new Lenis();
