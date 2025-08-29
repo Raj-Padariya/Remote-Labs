@@ -1,73 +1,128 @@
 
 document.addEventListener("DOMContentLoaded", function () {
   
-  gsap.registerPlugin(SplitText, ScrollTrigger);
+    // Register plugins
+    gsap.registerPlugin(SplitText, ScrollTrigger);
 
-function textAnimation() {
-  const SplittingTextConfig = {
-    selector: "h1, h2, p",
-    type: "lines", // 👈 only split into lines
-    linesClass: "line",
-    duration: 0.8,
-    yPercent: 100,
-    opacity: 0,
-    stagger: 0.15,
-    ease: "cubic-bezier(0.77, 0, 0.175, 1)",
-    start: "top 95%",
-  };
+    (function () {
+      const selector = "h1, h2, p";
+      let splitInstances = [];
+      let timelines = [];
+      let triggers = [];
 
-  // Hide all initially
-  document.querySelectorAll(SplittingTextConfig.selector).forEach((el) => {
-    el.style.visibility = "hidden";
-  });
+      // Remove any existing splits, timelines and triggers
+      function clearAll() {
+        triggers.forEach(t => t && t.kill());
+        timelines.forEach(tl => tl && tl.kill());
+        splitInstances.forEach(s => s && s.revert && s.revert());
+        triggers = [];
+        timelines = [];
+        splitInstances = [];
+        // also clear any custom references on elements
+        document.querySelectorAll(selector).forEach(el => delete el._split);
+      }
 
-  document.fonts.ready.then(() => {
-    if (!document.body.classList.contains("animation_init")) {
-      console.log("Animation not initialized: missing .animation_init class");
-      return;
-    }
+      // Create animations — called after layout is stable (fonts + load + refresh)
+      function createAnimations() {
+        const elements = document.querySelectorAll(selector);
+        if (!elements.length) return;
 
-    const elements = document.querySelectorAll(SplittingTextConfig.selector);
-    if (!elements.length) return;
+        elements.forEach(el => {
+          // Ensure element is visible for layout measurement (do NOT use visibility:hidden)
+          // We'll hide the split lines immediately after splitting with gsap.set to prevent flicker.
+          el.style.opacity = '1';
 
-    elements.forEach((element) => {
-      element.style.visibility = "visible";
+          // If element had a previous split, revert it (safety)
+          if (el._split) {
+            el._split.revert();
+            el._split = null;
+          }
 
-      // Split text into lines only
-      const split = new SplitText(element, {
-        type: SplittingTextConfig.type,
-        linesClass: SplittingTextConfig.linesClass,
+          // Split into lines only (we'll animate the whole line as a block)
+          const split = new SplitText(el, { type: "lines", linesClass: "line" });
+          el._split = split; // keep reference
+          splitInstances.push(split);
+
+          // Immediately set each line to starting state (hidden / shifted) — synchronous, avoids flicker
+          gsap.set(split.lines, { yPercent: 100, opacity: 0 });
+
+          // Timeline for the element
+          const tl = gsap.timeline({ paused: true });
+          tl.to(split.lines, {
+            duration: 0.8,
+            yPercent: 0,
+            opacity: 1,
+            ease: "cubic-bezier(0.77, 0, 0.175, 1)",
+            stagger: 0.12
+          });
+
+          timelines.push(tl);
+
+          // ScrollTrigger
+          const trig = ScrollTrigger.create({
+            trigger: el,
+            start: "top 90%",
+            animation: tl,
+            toggleActions: "play none none reverse",
+            //markers: true // uncomment for debugging
+          });
+          triggers.push(trig);
+        });
+      }
+
+      // Wait for fonts + window load — Chrome needs both to measure layout reliably
+      const whenReady = Promise.all([
+        // document.fonts may not exist in older browsers; if not, resolve immediately
+        (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve(),
+        new Promise(resolve => {
+          if (document.readyState === 'complete') resolve();
+          else window.addEventListener('load', resolve, { once: true });
+        })
+      ]);
+
+      // After fonts+load, trigger a ScrollTrigger.refresh which will run the refresh lifecycle
+      whenReady.then(() => {
+        // small delay helps Chrome finalize layout/subpixel calculations
+        setTimeout(() => {
+          // Call refresh so our refreshInit / refresh handlers run and create animations
+          ScrollTrigger.refresh();
+        }, 80);
       });
 
-      const animation = gsap.timeline({ paused: true });
-
-      // Animate whole lines instead of words
-      animation.from(
-        split.lines,
-        {
-          duration: SplittingTextConfig.duration,
-          yPercent: SplittingTextConfig.yPercent,
-          opacity: SplittingTextConfig.opacity,
-          ease: SplittingTextConfig.ease,
-          stagger: SplittingTextConfig.stagger,
-        }
-      );
-
-      // ScrollTrigger setup
-      ScrollTrigger.create({
-        trigger: element,
-        start: SplittingTextConfig.start,
-        animation: animation,
-        toggleActions: "play none none reverse",
-        // markers: true,
+      // On refreshInit: revert and kill everything BEFORE ScrollTrigger recalculates sizes
+      ScrollTrigger.addEventListener('refreshInit', () => {
+        // revert split markup and kill timelines/triggers so layout calc is correct
+        splitInstances.forEach(s => s && s.revert && s.revert());
+        timelines.forEach(tl => tl && tl.kill());
+        triggers.forEach(t => t && t.kill());
+        splitInstances = [];
+        timelines = [];
+        triggers = [];
       });
-    });
-  });
-}
 
-// Init
-document.body.classList.add("animation_init");
-textAnimation();
+      // On refresh (after layout calc), recreate splits & triggers
+      ScrollTrigger.addEventListener('refresh', () => {
+        // small timeout to let browser finish layout paint on some Chrome builds
+        setTimeout(() => {
+          createAnimations();
+        }, 20);
+      });
+
+      // Debounced resize: ask ScrollTrigger to refresh (which triggers the revert/create cycle above)
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          ScrollTrigger.refresh();
+        }, 150);
+      });
+
+      // Optional: a manual API to force a full rebuild if you dynamically change text
+      window.rebuildSplitTextAnimations = function () {
+        ScrollTrigger.refresh();
+      };
+
+    })();
 });
 
 // 
